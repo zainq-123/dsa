@@ -1,0 +1,63 @@
+package BinaryTrees.InvertTree.Brute;
+
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int val) { this.val = val; }
+}
+
+
+public class InvertTree_Brute {
+    public static TreeNode invertTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+
+        // Queue banayein hai nodes ko track karne ke liye
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+
+            TreeNode current = queue.poll();
+
+            TreeNode temp = current.left;
+            current.left = current.right;
+            current.right = temp;
+
+            // Agar left child maujood hai, to usay queue mein dalayngai
+            if (current.left != null) {
+                queue.add(current.left);
+            }
+
+            // Agar right child maujood hai, to usay queue mein dalayngai
+            if (current.right != null) {
+                queue.add(current.right);
+            }
+        }
+
+        return root;
+    }
+    public static void printTree(TreeNode root) {
+        if (root == null) return;
+        System.out.print(root.val + " ");
+        printTree(root.left);
+        printTree(root.right);
+    }
+
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(4);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(7);
+        root.left.left = new TreeNode(1);
+        root.left.right = new TreeNode(3);
+        root.right.left = new TreeNode(6);
+        root.right.right = new TreeNode(9);
+
+        invertTree(root);
+        printTree(root);
+    }
+}
